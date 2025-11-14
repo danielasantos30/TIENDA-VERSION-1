@@ -17,19 +17,21 @@ public class InventarioEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_inventario")
-    private Long idInventario;
+    private int idinventario;
     
-    @Column(name = "id_producto", nullable = false)
-    private Long idProducto;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_producto",referencedColumnName = "id_producto")
+    private ProductoEntity idproducto;
     
-    @Column(name = "id_sucursal", nullable = false)
-    private Long idSucursal;
+	@ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name = "id_sucursal",referencedColumnName = "id_sucursal")
+    private SucursalEntity idsucursal;
     
     @Column(name = "cantidad", nullable = false)
-    private Integer cantidad;
+    private int cantidad;
     
     @Column(name = "cant_minima")
-    private Integer cantMinima;
+    private int cantMinima;
     
     @Column(name = "fecha_ingreso")
     private LocalDateTime fechaIngreso;
@@ -46,43 +48,44 @@ public class InventarioEntity implements Serializable {
     @Column(name = "usuario_eliminacion", length = 100)
     private String usuarioEliminacion;
 
-	public Long getIdInventario() {
-		return idInventario;
+	public int getIdInventario() {
+		return idinventario;
 	}
 
-	public void setIdInventario(Long idInventario) {
-		this.idInventario = idInventario;
+	public void setIdInventario(int idInventario) {
+		this.idinventario = idInventario;
 	}
 
-	public Long getIdProducto() {
-		return idProducto;
+	public ProductoEntity getIdProducto() {
+		return idproducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
+	public void setIdProducto(ProductoEntity idProducto) {
+		this.idproducto = idProducto;
 	}
 
-	public Long getIdSucursal() {
-		return idSucursal;
+
+	public SucursalEntity getIdSucursal() {
+		return idsucursal;
 	}
 
-	public void setIdSucursal(Long idSucursal) {
-		this.idSucursal = idSucursal;
+	public void setIdSucursal(SucursalEntity idSucursal) {
+		this.idsucursal = idSucursal;
 	}
 
-	public Integer getCantidad() {
+	public int getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Integer cantidad) {
+	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
 
-	public Integer getCantMinima() {
+	public int getCantMinima() {
 		return cantMinima;
 	}
 
-	public void setCantMinima(Integer cantMinima) {
+	public void setCantMinima(int cantMinima) {
 		this.cantMinima = cantMinima;
 	}
 

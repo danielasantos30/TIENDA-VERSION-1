@@ -21,10 +21,12 @@ public class UsuarioEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Integer idUsuario;
+    private int idusuario;
     
-    @Column(name = "id_rol")
-    private Integer idRol;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
+    private RolEntity idRol;
     
     @Column(name = "nombre")
     private String nombre;
@@ -67,36 +69,45 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "imagen_url")
     private String imagenUrl;
     
-    //relaciones INVERSAS con Categorías
-    @OneToMany(mappedBy = "usuarioCreacion")
-    private List<CategoriaEntity> categoriasCreadas =new ArrayList<>();
     
-    @OneToMany(mappedBy = "usuarioEliminacion")
-    private List<CategoriaEntity> categoriasEliminadas = new ArrayList<>();
+    @OneToMany(mappedBy = "idusuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PedidosEntity> pedidos = new ArrayList<>();
+ 
+    
+    @OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL)
+    private List<TraspasoEntity> traspaso = new ArrayList<>();
+    
+    
+    //relaciones INVERSAS con Categorías
+   // @OneToMany(mappedBy = "usuarioCreacion")
+    //private List<CategoriaEntity> categoriasCreadas =new ArrayList<>();
+    
+  //  @OneToMany(mappedBy = "usuarioEliminacion")
+  //  private List<CategoriaEntity> categoriasEliminadas = new ArrayList<>();
     
  // RELACIONES INVERSA con Usuarios (auto-referencia)
-    @OneToMany(mappedBy = "usuarioCreacion")
-    private List<UsuarioEntity> usuariosCreados = new ArrayList<>();
+    //@OneToMany(mappedBy = "usuarioCreacion")
+   // private List<UsuarioEntity> usuariosCreados = new ArrayList<>();
     
-    @OneToMany(mappedBy = "usuarioEliminacion")
-    private List<UsuarioEntity> usuariosEliminados = new ArrayList<>();
+   // @OneToMany(mappedBy = "usuarioEliminacion")
+  //  private List<UsuarioEntity> usuariosEliminados = new ArrayList<>();
 
     
     
 //getters y setters
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public int getIdUsuario() {
+		return idusuario;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdUsuario(int idUsuario) {
+		this.idusuario = idUsuario;
 	}
 
-	public Integer getIdRol() {
+	public RolEntity getIdRol() {
 		return idRol;
 	}
 
-	public void setIdRol(Integer idRol) {
+	public void setIdRol(RolEntity idRol) {
 		this.idRol = idRol;
 	}
 
@@ -201,37 +212,37 @@ public class UsuarioEntity implements Serializable {
 		this.imagenUrl = imagenUrl;
 	}
 
-	public List<CategoriaEntity> getCategoriasCreadas() {
-		return categoriasCreadas;
-	}
-
-	public void setCategoriasCreadas(List<CategoriaEntity> categoriasCreadas) {
-		this.categoriasCreadas = categoriasCreadas;
-	}
-
-	public List<CategoriaEntity> getCategoriasEliminadas() {
-		return categoriasEliminadas;
-	}
-
-	public void setCategoriasEliminadas(List<CategoriaEntity> categoriasEliminadas) {
-		this.categoriasEliminadas = categoriasEliminadas;
-	}
-
-	public List<UsuarioEntity> getUsuariosCreados() {
-		return usuariosCreados;
-	}
-
-	public void setUsuariosCreados(List<UsuarioEntity> usuariosCreados) {
-		this.usuariosCreados = usuariosCreados;
-	}
-
-	public List<UsuarioEntity> getUsuariosEliminados() {
-		return usuariosEliminados;
-	}
-
-	public void setUsuariosEliminados(List<UsuarioEntity> usuariosEliminados) {
-		this.usuariosEliminados = usuariosEliminados;
-	}
+//	public List<CategoriaEntity> getCategoriasCreadas() {
+//		return categoriasCreadas;
+//	}
+//
+//	public void setCategoriasCreadas(List<CategoriaEntity> categoriasCreadas) {
+//		this.categoriasCreadas = categoriasCreadas;
+//	}
+//
+//	public List<CategoriaEntity> getCategoriasEliminadas() {
+//		return categoriasEliminadas;
+//	}
+//
+//	public void setCategoriasEliminadas(List<CategoriaEntity> categoriasEliminadas) {
+//		this.categoriasEliminadas = categoriasEliminadas;
+//	}
+//
+//	public List<UsuarioEntity> getUsuariosCreados() {
+//		return usuariosCreados;
+//	}
+//
+//	public void setUsuariosCreados(List<UsuarioEntity> usuariosCreados) {
+//		this.usuariosCreados = usuariosCreados;
+//	}
+//
+//	public List<UsuarioEntity> getUsuariosEliminados() {
+//		return usuariosEliminados;
+//	}
+//
+//	public void setUsuariosEliminados(List<UsuarioEntity> usuariosEliminados) {
+//		this.usuariosEliminados = usuariosEliminados;
+//	}
     
     
 }

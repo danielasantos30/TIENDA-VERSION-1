@@ -17,13 +17,15 @@ public class ProductoDescuentoEntity implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto_descuento")
-    private Long idProductoDescuento;
+    private int idProductoDescuento;  
+	
+	@ManyToOne(fetch =FetchType.LAZY)
+	@JoinColumn(name = "id_descuento", referencedColumnName = "id_descuento")
+    private DescuentoEntity idDescuento;
     
-    @Column(name = "id_descuento")
-    private Long idDescuento;
-    
-    @Column(name = "id_producto")
-    private Long idProducto;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
+    private ProductoEntity idProducto;
     
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
@@ -37,27 +39,27 @@ public class ProductoDescuentoEntity implements Serializable{
     @Column(name = "usuario_eliminacion")
     private String usuarioEliminacion;
 
-	public Long getIdProductoDescuento() {
+	public int getIdProductoDescuento() {
 		return idProductoDescuento;
 	}
 
-	public void setIdProductoDescuento(Long idProductoDescuento) {
+	public void setIdProductoDescuento(int idProductoDescuento) {
 		this.idProductoDescuento = idProductoDescuento;
 	}
 
-	public Long getIdDescuento() {
+		public DescuentoEntity getIdDescuento() {
 		return idDescuento;
 	}
 
-	public void setIdDescuento(Long idDescuento) {
+	public void setIdDescuento(DescuentoEntity idDescuento) {
 		this.idDescuento = idDescuento;
 	}
 
-	public Long getIdProducto() {
+	public ProductoEntity getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
+	public void setIdProducto(ProductoEntity idProducto) {
 		this.idProducto = idProducto;
 	}
 

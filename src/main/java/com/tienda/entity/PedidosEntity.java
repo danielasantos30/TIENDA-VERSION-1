@@ -17,16 +17,21 @@ public class PedidosEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
-    private Long idPedido;
+    private int idpedido;
     
-    @Column(name = "id_cliente")
-    private Long idCliente;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private ClienteEntity idcliente;
     
-    @Column(name = "id_usuario")
-    private Long idUsuario;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    private UsuarioEntity idusuario;
     
-    @Column(name = "id_sucursal")
-    private Long idSucursal;
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "id_sucursal", referencedColumnName = "id_sucursal")
+    private SucursalEntity idsucursal;
     
     @Column(name = "fecha_pedido")
     private LocalDateTime fechaPedido;
@@ -46,36 +51,37 @@ public class PedidosEntity implements Serializable {
     @Column(name = "estatus")
     private String estatus;
 
-	public Long getIdPedido() {
-		return idPedido;
+	public int getIdPedido() {
+		return idpedido;
 	}
 
-	public void setIdPedido(Long idPedido) {
-		this.idPedido = idPedido;
+	public void setIdPedido(int idPedido) {
+		this.idpedido = idPedido;
 	}
 
-	public Long getIdCliente() {
-		return idCliente;
+	
+	public ClienteEntity getIdCliente() {
+		return idcliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setIdCliente(ClienteEntity idCliente) {
+		this.idcliente = idCliente;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public UsuarioEntity getIdUsuario() {
+		return idusuario;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdUsuario(UsuarioEntity idUsuario) {
+		this.idusuario = idUsuario;
 	}
 
-	public Long getIdSucursal() {
-		return idSucursal;
+	public SucursalEntity getIdSucursal() {
+		return idsucursal;
 	}
 
-	public void setIdSucursal(Long idSucursal) {
-		this.idSucursal = idSucursal;
+	public void setIdSucursal(SucursalEntity idSucursal) {
+		this.idsucursal = idSucursal;
 	}
 
 	public LocalDateTime getFechaPedido() {

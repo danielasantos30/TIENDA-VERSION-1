@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -17,7 +19,7 @@ public class ClienteEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
-    private Long idCliente;
+    private int idcliente;
     
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
@@ -48,13 +50,17 @@ public class ClienteEntity implements Serializable {
     
     @Column(name = "estatus", length = 20)
     private String estatus;
+    
+    @OneToMany(mappedBy = "idcliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PedidosEntity> pedido = new ArrayList<>();
+ 
 
-	public Long getIdCliente() {
-		return idCliente;
+	public int getIdCliente() {
+		return idcliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setIdCliente(int idCliente) {
+		this.idcliente = idCliente;
 	}
 
 	public String getNombre() {

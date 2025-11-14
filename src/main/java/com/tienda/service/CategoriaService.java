@@ -28,44 +28,11 @@ public class CategoriaService implements ICategoriaService {
     public List<CategoriaDTO> obtenerTodasLasCategorias() {
         List<CategoriaEntity> listaCategoria = (List<CategoriaEntity>) categoriaRepository.findAll();
         List<CategoriaDTO> listaCategoriaDTO = new ArrayList<>();
-        
-        for (CategoriaEntity entity : listaCategoria) {
-            // Convertir usuarioCreacion Entity → DTO
-            UsuarioDTO usuarioCreacionDTO = null;
-            if (entity.getUsuarioCreacion() != null) {
-                usuarioCreacionDTO = convertirUsuarioADTO(entity.getUsuarioCreacion());
-            }
-            
-            // Convertir usuarioEliminacion Entity → DTO  
-            UsuarioDTO usuarioEliminacionDTO = null;
-            if (entity.getUsuarioEliminacion() != null) {
-                usuarioEliminacionDTO = convertirUsuarioADTO(entity.getUsuarioEliminacion());
-            }
-            
-            // Crear CategoriaDTO con los DTOs convertidos
-            CategoriaDTO dto = new CategoriaDTO(
-                entity.getIdcategoria(),
-                entity.getNombre(),
-                entity.getDescripcion(),
-                entity.getFechaCreacion(),
-                entity.getFechaEliminacion(),
-                usuarioCreacionDTO,        // ← UsuarioDTO, no UsuarioEntity
-                usuarioEliminacionDTO      // ← UsuarioDTO, no UsuarioEntity
-            );
-            
-            listaCategoriaDTO.add(dto);
-        }
+      listaCategoria.forEach(
+    		  x-> listaCategoriaDTO.add(new CategoriaDTO(x.getIdcategoria(),x.getNombre(),x.getDescripcion()))
+    		  
+    		  );
         return listaCategoriaDTO;
-    }
-
-   
-
-    @Override
-    public void eliminarCategoriaSiExiste(int idcategoria) {
-        if (!categoriaRepository.existsById(idcategoria)) {
-            throw new RuntimeException("Categoria no encontrado con ID: " + idcategoria);
-        }
-        categoriaRepository.deleteById(idcategoria);
     }
 
     @Override
@@ -75,84 +42,48 @@ public class CategoriaService implements ICategoriaService {
             .map(entity -> new CategoriaDTO(
                     entity.getIdcategoria(),
                     entity.getNombre(),
-                    entity.getDescripcion(),
-                    entity.getFechaCreacion(),
-                    entity.getFechaEliminacion(),
-                    convertirUsuarioADTO (entity.getUsuarioCreacion()),
-                    convertirUsuarioADTO( entity.getUsuarioEliminacion())                    
+                    entity.getDescripcion()                    
                 ))
                 .orElse(null);
         }
 
     @Override
-    public CategoriaDTO crearCategoria(CategoriaDTO categoriaDTO) throws ServiceException {
-        // Validaciones
-        if(categoriaDTO.getNombre() == null || categoriaDTO.getNombre().trim().isEmpty()) {
-            throw new ServiceException("El nombre es obligatorio");
-        }
-        
-     // Crear Entity
-        CategoriaEntity categoria = new CategoriaEntity();
-        categoria.setNombre(categoriaDTO.getNombre().trim());
-        categoria.setDescripcion(categoriaDTO.getDescripcion() != null ? categoriaDTO.getDescripcion().trim() : null);
-        categoria.setFechaCreacion(categoriaDTO.getFechaCreacion());
-        categoria.setFechaEliminacion(categoriaDTO.getFechaEliminacion());
-        
-        // ASIGNAR OBJETOS UsuarioEntity (no IDs)
+    public CategoriaDTO eliminarCategoriaSiExiste(int idcategoria) {     
+        categoriaRepository.deleteById(idcategoria);
+        return null;
+    }
 
-       Optional<UsuarioEntity> usuarioCreador= this.usuarioRepository.findById(categoriaDTO.getUsuarioCreacion().getIdUsuario());
-        
-		categoria.setUsuarioCreacion(usuarioCreador.get());
-        categoria.setUsuarioEliminacion(null);
-        
-        // Guardar y obtener el entity con ID asignado
-        CategoriaEntity categoriaGuardada = this.categoriaRepository.save(categoria);
-        
-        // Retornar DTO con ID generado
-        return new CategoriaDTO(
-                categoriaGuardada.getIdcategoria(),
-                categoriaGuardada.getNombre(),
-                categoriaGuardada.getDescripcion(),
-                categoriaGuardada.getFechaCreacion(),
-                categoriaGuardada.getFechaEliminacion(),
-                convertirUsuarioADTO(categoriaGuardada.getUsuarioCreacion()),
-                convertirUsuarioADTO(categoriaGuardada.getUsuarioEliminacion())
-            ); 
+   
+
+    @Override
+    public CategoriaDTO crearCategoria(CategoriaDTO categoriaDTO) {
+    	CategoriaEntity categoria =new CategoriaEntity();
+    	categoria.setNombre(categoriaDTO.getNombre());
+    	categoria.setDescripcion(categoriaDTO.getDescripcion());
+    	
+    	CategoriaEntity categoriaGuardada =this.categoriaRepository.save(categoria);
+    	
+    	categoriaDTO.setIdcategoria(categoriaGuardada.getIdcategoria());
+    	return categoriaDTO;
+       
         }
     
 
     @Override
-    public CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO) {
-        try {
-            CategoriaEntity categoriaExistente = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + id));
-            
-            // Actualizar campos
-            if(categoriaDTO.getNombre() != null) {
-                categoriaExistente.setNombre(categoriaDTO.getNombre().trim());
-            }
-            if(categoriaDTO.getDescripcion() != null) {
-                categoriaExistente.setDescripcion(categoriaDTO.getDescripcion().trim());
-            }
-            
-                       
-            // Guardar
-            CategoriaEntity categoriaActualizada = categoriaRepository.save(categoriaExistente);
-            
-            // Convertir a DTO
-            return new CategoriaDTO(
-                    categoriaActualizada.getIdcategoria(),
-                    categoriaActualizada.getNombre(),
-                    categoriaActualizada.getDescripcion(),
-                    categoriaActualizada.getFechaCreacion(),
-                    categoriaActualizada.getFechaEliminacion(),
-                    convertirUsuarioADTO( categoriaActualizada.getUsuarioCreacion()),
-                    convertirUsuarioADTO(categoriaActualizada.getUsuarioEliminacion())
-                );
-                
-            } catch (Exception e) {
-                throw new RuntimeException("Error al actualizar la categoría: " + e.getMessage());
-            }
+    public CategoriaDTO actualizarCategoria(CategoriaDTO categoriaDTO) {
+    	//verificar existencia
+    	if(obtenerCategoriaPorId(categoriaDTO.getIdcategoria())== null) {
+    		return null;
+    	}
+    	//crear entity con los dto
+    	CategoriaEntity catEntity =new CategoriaEntity();
+    	catEntity.setIdcategoria(categoriaDTO.getIdcategoria());
+    	catEntity.setNombre(categoriaDTO.getNombre());
+    	catEntity.setDescripcion(categoriaDTO.getDescripcion());
+    	
+    	categoriaRepository.save(catEntity);
+    	return categoriaDTO;
+    	
         }
     
     
@@ -163,27 +94,27 @@ public class CategoriaService implements ICategoriaService {
  	   return new CategoriaDTO (
  			   categoriaEntity.getIdcategoria(),
  			   categoriaEntity.getNombre(),
- 			   categoriaEntity.getDescripcion(),
- 			   categoriaEntity.getFechaCreacion(),
- 			   categoriaEntity.getFechaEliminacion(),
- 			  convertirUsuarioADTO(categoriaEntity.getUsuarioCreacion()),
- 			  convertirUsuarioADTO(categoriaEntity.getUsuarioEliminacion())
- 	   
+ 			   categoriaEntity.getDescripcion()
+// 			   categoriaEntity.getFechaCreacion(),
+// 			   categoriaEntity.getFechaEliminacion(),
+// 			  categoriaEntity.getUsuarioCreacion(),
+// 			  convertirUsuarioADTO(categoriaEntity.getUsuarioEliminacion())
+// 	   
  			   );
     }
     
-    
-    private UsuarioDTO convertirUsuarioADTO(UsuarioEntity usuarioEntity) {
-    	if (usuarioEntity == null)
-    		return null;
-        return new UsuarioDTO(
-            usuarioEntity.getIdUsuario(),
-            usuarioEntity.getIdRol(),
-            usuarioEntity.getNombre(),
-            usuarioEntity.getApellido(),
-            usuarioEntity.getEmail()
-        );
+//    
+//    private UsuarioDTO convertirUsuarioADTO(UsuarioEntity usuarioEntity) {
+//    	if (usuarioEntity == null)
+//    		return null;
+//        return new UsuarioDTO(
+//            usuarioEntity.getIdUsuario(),
+//            usuarioEntity.getIdRol(),
+//            usuarioEntity.getNombre(),
+//            usuarioEntity.getApellido(),
+//            usuarioEntity.getEmail(),
+//            
+//        );
     }
     
   
-}

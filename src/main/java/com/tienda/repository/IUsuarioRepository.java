@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tienda.entity.UsuarioEntity;
 
-@Repository
+
 public interface IUsuarioRepository extends JpaRepository<UsuarioEntity, Integer>{
 
 }

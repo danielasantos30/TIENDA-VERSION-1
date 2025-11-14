@@ -2,17 +2,20 @@ package com.tienda.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -43,15 +46,17 @@ public class CategoriaEntity implements Serializable{
 	 @Column(name = "fecha_eliminacion")
 	    private LocalDateTime fechaEliminacion;
 	    
+	 // ✅ RELACIÓN UNO-A-MUCHOS
+	    @OneToMany(mappedBy = "idcategoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    private List<ProductoEntity> productos = new ArrayList<>();
 	 
-	 //FOREING KEYS. Relacion con UsuarioEntity
-	 @ManyToOne(fetch=FetchType.LAZY)
-	 @JoinColumn(name = "usuario_creacion", referencedColumnName = "id_usuario")
-	    private UsuarioEntity  usuarioCreacion;
-	   
-	 @ManyToOne(fetch=FetchType.LAZY)
-	 @JoinColumn(name = "usuario_eliminacion", referencedColumnName = "id_usuario")
-	    private UsuarioEntity usuarioEliminacion;
+	 
+	 
+	 @Column(name = "usuario_creacion")
+	    private Integer  usuarioCreacion;
+	
+	 @Column(name = "usuario_eliminacion")
+	    private Integer usuarioEliminacion;
 
 	 public int getIdcategoria() {
 		 return idcategoria;
@@ -93,21 +98,23 @@ public class CategoriaEntity implements Serializable{
 		 this.fechaEliminacion = fechaEliminacion;
 	 }
 
-	 public UsuarioEntity getUsuarioCreacion() {
+	 public Integer getUsuarioCreacion() {
 		 return usuarioCreacion;
 	 }
 
-	 public void setUsuarioCreacion(UsuarioEntity usuarioCreacion) {
+	 public void setUsuarioCreacion(Integer usuarioCreacion) {
 		 this.usuarioCreacion = usuarioCreacion;
 	 }
 
-	 public UsuarioEntity getUsuarioEliminacion() {
+	 public Integer getUsuarioEliminacion() {
 		 return usuarioEliminacion;
 	 }
 
-	 public void setUsuarioEliminacion(UsuarioEntity usuarioEliminacion) {
+	 public void setUsuarioEliminacion(Integer usuarioEliminacion) {
 		 this.usuarioEliminacion = usuarioEliminacion;
 	 }
+
+	
 
 	
 	 

@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "descuentos")
@@ -17,7 +21,7 @@ public class DescuentoEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_descuento")
-    private Long idDescuento;
+    private int idDescuento;
     
     @Column(name = "nombre_descuento", nullable = false, length = 150)
     private String nombreDescuento;
@@ -25,18 +29,20 @@ public class DescuentoEntity implements Serializable {
     @Column(name = "porcentaje_desc", nullable = false)
     private Double porcentajeDesc;
     
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDateTime fechaInicio;
     
     @Column(name = "fecha_fin", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaFin;
-    
-    @Column(name = "estado", length = 20)
-    private String estado;
-    
+   
     @Column(name = "fecha_creacion")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaCreacion;
     
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
     
@@ -48,12 +54,16 @@ public class DescuentoEntity implements Serializable {
     
     @Column(name = "estatus", length = 20)
     private String estatus;
+    
+    
+    @OneToMany(mappedBy = "idDescuento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductoDescuentoEntity> productoDesc = new ArrayList<>();
 
-	public Long getIdDescuento() {
+	public int getIdDescuento() {
 		return idDescuento;
 	}
 
-	public void setIdDescuento(Long idDescuento) {
+	public void setIdDescuento(int idDescuento) {
 		this.idDescuento = idDescuento;
 	}
 
@@ -89,13 +99,7 @@ public class DescuentoEntity implements Serializable {
 		this.fechaFin = fechaFin;
 	}
 
-	public String getEstado() {
-		return estado;
-	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 
 	public LocalDateTime getFechaCreacion() {
 		return fechaCreacion;

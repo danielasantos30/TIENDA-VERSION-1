@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sucursales")
@@ -17,7 +19,7 @@ public class SucursalEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sucursal")
-    private Long idSucursal;
+    private int idSucursal;
     
     @Column(name = "nombre")
     private String nombre;
@@ -57,12 +59,24 @@ public class SucursalEntity implements Serializable {
     
     @Column(name = "longitud")
     private Double longitud;
-
-	public Long getIdSucursal() {
+    
+    @OneToMany(mappedBy = "idsucursal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InventarioEntity> inventario = new ArrayList<>();
+ 
+    @OneToMany(mappedBy = "idsucursal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PedidosEntity> pedidos = new ArrayList<>();
+ 
+//    @OneToMany(mappedBy = "sucursalOrigen")
+//    private List<SucursalEntity> sucursalOrigen = new ArrayList<>();
+//    
+//    @OneToMany(mappedBy = "sucursalDestino")
+//    private List<SucursalEntity> sucursalDestino = new ArrayList<>();
+    
+	public int getIdSucursal() {
 		return idSucursal;
 	}
 
-	public void setIdSucursal(Long idSucursal) {
+	public void setIdSucursal(int idSucursal) {
 		this.idSucursal = idSucursal;
 	}
 

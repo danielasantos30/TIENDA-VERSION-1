@@ -92,6 +92,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--        	<groupId>com.helpdesk.mv</groupId>-->
+<!--        	<artifactId>helpdesk</artifactId>-->
+<!--        	<version>0.0.1-SNAPSHOT</version>-->
+<!--        </dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

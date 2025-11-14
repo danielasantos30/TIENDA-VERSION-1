@@ -11,9 +11,9 @@ public interface ICategoriaService {
 	
 	List<CategoriaDTO> obtenerTodasLasCategorias();
 	
-    void eliminarCategoriaSiExiste(int idcategoria);      // Reemplaza eliminarAlumnoPorId
+    CategoriaDTO eliminarCategoriaSiExiste(int idcategoria);      // Reemplaza eliminarAlumnoPorId
     
-    CategoriaDTO actualizarCategoria(int id, CategoriaDTO categoriaDTO); // Reemplaza updateAlumno
+    CategoriaDTO actualizarCategoria(CategoriaDTO categoriaDTO); // Reemplaza updateAlumno
 
 	CategoriaDTO crearCategoria(CategoriaDTO categoriaDTO);
 

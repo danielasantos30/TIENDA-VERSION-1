@@ -1,7 +1,6 @@
 package com.tienda.DTO;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +17,11 @@ public class CategoriaDTO implements Serializable{
 	 private int idcategoria;
 	    private String nombre;
 	    private String descripcion;
-	    private LocalDateTime fechaCreacion;
-	    private LocalDateTime fechaEliminacion;
-	    private UsuarioDTO usuarioCreacion;
-	    private UsuarioDTO usuarioEliminacion;
-	
+//	    private LocalDateTime fechaCreacion;
+//	    private LocalDateTime fechaEliminacion;
+//	    private Integer usuarioCreacion;
+//	    private Integer usuarioEliminacion;
+//	
 	    
 	  //constructor vacio
 	    public CategoriaDTO() {
@@ -30,16 +29,17 @@ public class CategoriaDTO implements Serializable{
 	    }
 
 
-		public CategoriaDTO(int idcategoria, String nombre, String descripcion, LocalDateTime fechaCreacion,
-				LocalDateTime fechaEliminacion, UsuarioDTO usuarioCreacionDTO, UsuarioDTO usuarioEliminacionDTO) {
-			super();
+		public CategoriaDTO(int idcategoria, String nombre, String descripcion //LocalDateTime fechaCreacion,
+				//LocalDateTime fechaEliminacion, UsuarioDTO usuarioCreacionDTO, UsuarioDTO usuarioEliminacionDTO
+				) {
+			
 			this.idcategoria = idcategoria;
 			this.nombre = nombre;
 			this.descripcion = descripcion;
-			this.fechaCreacion = fechaCreacion;
-			this.fechaEliminacion = fechaEliminacion;
-			this.usuarioCreacion = usuarioCreacionDTO;
-			this.usuarioEliminacion = usuarioEliminacionDTO;
+//			this.fechaCreacion = fechaCreacion;
+//			this.fechaEliminacion = fechaEliminacion;
+//			this.usuarioCreacion = usuarioCreacionDTO;
+//			this.usuarioEliminacion = usuarioEliminacionDTO;
 		}
 		//Método que convierte un objeto en una cadena de texto legible
 		//El método toString() debe ir en AlumnoDTO porque es donde están definidos los datos que quieres mostrar, los cuales son privados

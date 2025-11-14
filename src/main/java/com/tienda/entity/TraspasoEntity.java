@@ -17,22 +17,27 @@ public class TraspasoEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_traspaso")
-    private Long idTraspaso;
+    private int idTraspaso;
     
-    @Column(name = "id_producto")
-    private Long idProducto;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto", nullable = true)
+    private ProductoEntity idProducto;
     
-    @Column(name = "id_usuario")
-    private Long idUsuario;
+	@ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = true)
+    private UsuarioEntity idUsuario;
     
-    @Column(name = "sucursal_origen")
-    private Long sucursalOrigen;
+	@ManyToOne
+    @JoinColumn(name = "sucursal_origen", referencedColumnName = "id_sucursal", nullable = true)
+    private SucursalEntity sucursalOrigen;
     
-    @Column(name = "sucursal_destino")
-    private Long sucursalDestino;
+	@ManyToOne
+    @JoinColumn(name = "sucursal_destino", referencedColumnName = "id_sucursal", nullable = true)
+    private SucursalEntity sucursalDestino;
     
     @Column(name = "cantidad")
-    private Integer cantidad;
+    private int cantidad;
     
     @Column(name = "fecha_traspaso")
     private LocalDateTime fechaTraspaso;
@@ -55,51 +60,52 @@ public class TraspasoEntity implements Serializable {
     @Column(name = "fecha_confirmacion")
     private LocalDateTime fechaConfirmacion;
 
-	public Long getIdTraspaso() {
+	public int getIdTraspaso() {
 		return idTraspaso;
 	}
 
-	public void setIdTraspaso(Long idTraspaso) {
+	public void setIdTraspaso(int idTraspaso) {
 		this.idTraspaso = idTraspaso;
 	}
 
-	public Long getIdProducto() {
+
+	public ProductoEntity getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
+	public void setIdProducto(ProductoEntity idProducto) {
 		this.idProducto = idProducto;
 	}
 
-	public Long getIdUsuario() {
+	public UsuarioEntity getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
+	public void setIdUsuario(UsuarioEntity idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
-	public Long getSucursalOrigen() {
+	public SucursalEntity getSucursalOrigen() {
 		return sucursalOrigen;
 	}
 
-	public void setSucursalOrigen(Long sucursalOrigen) {
+	public void setSucursalOrigen(SucursalEntity sucursalOrigen) {
 		this.sucursalOrigen = sucursalOrigen;
 	}
 
-	public Long getSucursalDestino() {
+	public SucursalEntity getSucursalDestino() {
 		return sucursalDestino;
 	}
 
-	public void setSucursalDestino(Long sucursalDestino) {
+	public void setSucursalDestino(SucursalEntity sucursalDestino) {
 		this.sucursalDestino = sucursalDestino;
 	}
 
-	public Integer getCantidad() {
+	public int getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Integer cantidad) {
+	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
 

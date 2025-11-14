@@ -2,7 +2,10 @@ package com.tienda.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -26,7 +30,7 @@ public class ProductoEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	@Column(name="id_producto")
-	private int idpproducto;
+	private int idproducto;
 	
 	//foreing key.relacion con categoria
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -64,14 +68,24 @@ public class ProductoEntity implements Serializable{
 	    private String estatus;
 	    
 	    
+	    @OneToMany(mappedBy = "idproducto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    private List<InventarioEntity> inventario = new ArrayList<>();
+	 
+	    @OneToMany(mappedBy = "idProducto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	    private List<ProductoDescuentoEntity> productoDescuento = new ArrayList<>();
+	    
+	    
+	    @OneToMany(mappedBy = "idProducto", cascade = CascadeType.ALL)
+	    private List<TraspasoEntity> traspaso = new ArrayList<>();
+	    
 	    //getters y setters
 
-		public int getIdpproducto() {
-			return idpproducto;
+		public int getIdproducto() {
+			return idproducto;
 		}
 
-		public void setIdpproducto(int idpproducto) {
-			this.idpproducto = idpproducto;
+		public void setIdproducto(int idpproducto) {
+			this.idproducto = idpproducto;
 		}
 
 		

@@ -80,15 +80,12 @@ public class CategoriaController {
 
 	//actualizar categoria
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizarCategoria(@PathVariable int id, @RequestBody CategoriaDTO categoriaDTO) {
-		try {
-			CategoriaDTO categoriaActualizada = categoriaService.actualizarCategoria(id, categoriaDTO);
-		    return ResponseEntity.ok(categoriaActualizada);
-		}catch (RuntimeException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-					}
-	   
-	}
+	public String actualizarCategoria(@PathVariable int id, @RequestBody CategoriaDTO categoriaDTO) {
+		categoriaDTO.setIdcategoria(id);
+		CategoriaDTO categoriaActualizada = categoriaService.actualizarCategoria(categoriaDTO);
+		if(categoriaActualizada != null) {
+			return "Categoria actualizada :  " + categoriaActualizada;
+		}else { return "no se pudo actualizar la categoria con ID :  " + id;}
 	
-
+	}
 }

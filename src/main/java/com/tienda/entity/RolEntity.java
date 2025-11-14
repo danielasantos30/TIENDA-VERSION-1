@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -17,13 +19,13 @@ public class RolEntity implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
-    private Long idRol;
+    private int idRol;
     
     @Column(name = "rol")
     private String rol;
     
-    @Column(name = "description")
-    private String description;
+    @Column(name = "descripcion")
+    private String descripcion;
     
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
@@ -39,12 +41,17 @@ public class RolEntity implements Serializable {
     
     @Column(name = "estatus")
     private String estatus;
+    
+    @OneToMany(mappedBy = "idRol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UsuarioEntity> usuarios = new ArrayList<>();
+ 
+ 
 
-	public Long getIdRol() {
+	public int getIdRol() {
 		return idRol;
 	}
 
-	public void setIdRol(Long idRol) {
+	public void setIdRol(int idRol) {
 		this.idRol = idRol;
 	}
 
@@ -56,12 +63,12 @@ public class RolEntity implements Serializable {
 		this.rol = rol;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public LocalDateTime getFechaCreacion() {
